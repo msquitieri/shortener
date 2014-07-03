@@ -41,6 +41,21 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     end
   end
 
+  def self.get_link_from_token(token)
+    links = self.where(unique_key: token)
+    sl = nil
+    if (links.count < 2)
+      sl = links.first
+    else
+      links.each do |link|
+        if link.unique_key == token
+          sl = link
+          break
+        end
+      end
+    end
+  end
+
   private
 
   # the create method changed in rails 4...
