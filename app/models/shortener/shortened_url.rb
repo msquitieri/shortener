@@ -29,7 +29,12 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     # so check the datastore
     cleaned_url = clean_url(orig_url)
     scope = owner ? owner.shortened_urls : self
-    scope.where(:url => cleaned_url).first_or_create
+
+    url_hash = hash(cleaned_url)
+
+    short_link = scope.where(hash: url_hash).first
+    short_link = scope.create(url: cleaned_url) if short_link.nil?
+    short_link
   end
 
   # return shortened url on success, nil on failure
@@ -63,6 +68,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     count = 0
     begin
       self.unique_key = generate_unique_key
+      self.hash = hash(self.url)
       super()
     rescue ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid => err
       if (count +=1) < 5
@@ -81,6 +87,10 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     # not doing uppercase as url is case insensitive
     charset = ::Shortener.key_chars
     (0...::Shortener.unique_key_length).map{ charset[rand(charset.size)] }.join
+  end
+
+  def hash(string)
+    Digest.SHA1.hexdigest string
   end
 
 end
