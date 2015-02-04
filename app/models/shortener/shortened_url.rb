@@ -90,7 +90,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
   end
 
   def hash_url(string)
-    Digest.SHA1.hexdigest string
+    Digest::SHA1.hexdigest string
   end
 
 end
