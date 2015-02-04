@@ -13,7 +13,7 @@ class CreateShortenedUrlsTable < ActiveRecord::Migration
 
       # Search on url hash since urls can go larger
       # than VARCHAR(255).
-      t.string :hash, :null => false
+      t.string :url_hash, :null => false
 
       # how many times the link has been clicked
       t.integer :use_count, :null => false, :default => 0
@@ -24,7 +24,7 @@ class CreateShortenedUrlsTable < ActiveRecord::Migration
     # we will lookup the links in the db by key, urls and owners.
     # also make sure the unique keys are actually unique
     add_index :shortened_urls, :unique_key, :unique => true
-    add_index :shortened_urls, :hash, :unique => true
+    add_index :shortened_urls, :url_hash, :unique => true
     add_index :shortened_urls, [:owner_id, :owner_type]
   end
 end

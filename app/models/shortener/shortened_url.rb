@@ -32,7 +32,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
 
     url_hash = hash(cleaned_url)
 
-    short_link = scope.where(hash: url_hash).first
+    short_link = scope.where(url_hash: url_hash).first
     short_link = scope.create(url: cleaned_url) if short_link.nil?
     short_link
   end
