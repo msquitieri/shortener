@@ -30,7 +30,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     cleaned_url = clean_url(orig_url)
     scope = owner ? owner.shortened_urls : self
 
-    url_hash = hash(cleaned_url)
+    url_hash = hash_url(cleaned_url)
 
     short_link = scope.where(url_hash: url_hash).first
     short_link = scope.create(url: cleaned_url) if short_link.nil?
@@ -68,7 +68,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     count = 0
     begin
       self.unique_key = generate_unique_key
-      self.hash = hash(self.url)
+      self.hash = hash_url(self.url)
       super()
     rescue ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid => err
       if (count +=1) < 5
@@ -89,7 +89,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
     (0...::Shortener.unique_key_length).map{ charset[rand(charset.size)] }.join
   end
 
-  def hash(string)
+  def hash_url(string)
     Digest.SHA1.hexdigest string
   end
 
