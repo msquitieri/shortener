@@ -58,9 +58,9 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
       else
         "_create_record"
       end
-  else
-    "create"
-  end
+    else
+      "create"
+    end
 
   # we'll rely on the DB to make sure the unique key is really unique.
   # if it isn't unique, the unique index will catch this and raise an error
