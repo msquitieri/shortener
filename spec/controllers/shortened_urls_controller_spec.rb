@@ -37,4 +37,22 @@ describe Shortener::ShortenedUrlsController do
     let(:code) { "-" }
     it_should_behave_like "wrong code"
   end
+
+  describe "GET show with after_redirect callback" do
+    let(:code) { short_url.unique_key }
+
+    before :each do
+      Shortener.configure do |config|
+        config.after_redirect do |shortened_url|
+          shortened_url.update_attribute(:url, 'http://anotherurl.com')
+        end
+      end
+    end
+
+    it_should_behave_like 'good code'
+
+    it 'executes the callback after the redirect' do
+      Shortener::ShortenedUrl.first.url.should eq('http://anotherurl.com')
+    end
+  end
 end

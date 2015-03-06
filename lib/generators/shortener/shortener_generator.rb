@@ -14,8 +14,12 @@ class ShortenerGenerator < Rails::Generators::Base
       "%.3d" % (current_migration_number(dirname) + 1)
     end
   end
-  
+
   def create_migration_file
     migration_template 'migration.rb', 'db/migrate/create_shortened_urls_table.rb'
+  end
+
+  def create_initializer_file
+    copy_file 'initializer.rb', 'config/initializers/shortener.rb'
   end
 end

@@ -90,7 +90,7 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
   def generate_unique_key
     # not doing uppercase as url is case insensitive
     charset = ::Shortener.key_chars
-    (0...::Shortener.unique_key_length).map{ charset[rand(charset.size)] }.join
+    (0...::Shortener.config.unique_key_length).map{ charset[rand(charset.size)] }.join
   end
 
 end
