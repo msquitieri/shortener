@@ -15,9 +15,11 @@ class Shortener::ShortenedUrlsController < ApplicationController
       # browser type, ip address etc.
       Thread.new do
         sl.increment!(:use_count)
-        Shortener.config.after_redirect_call.try(:call, sl)
         ActiveRecord::Base.connection.close
       end
+
+      Shortener.config.after_redirect_call.try(:call, sl)
+
       # do a 301 redirect to the destination url
       redirect_to sl.url, :status => :moved_permanently
     else
