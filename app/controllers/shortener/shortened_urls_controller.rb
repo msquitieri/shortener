@@ -1,4 +1,4 @@
-class Shortener::ShortenedUrlsController < ActionController::Base
+class Shortener::ShortenedUrlsController < ApplicationController
 
   # find the real link for the shortened link key and redirect
   def show
