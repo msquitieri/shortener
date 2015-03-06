@@ -52,7 +52,22 @@ describe Shortener::ShortenedUrlsController do
     it_should_behave_like 'good code'
 
     it 'executes the callback after the redirect' do
-      Shortener::ShortenedUrl.first.url.should eq('http://anotherurl.com')
+      get :show, :id => code
+      Shortener::ShortenedUrl.where(unique_key: code).first.url.should eq('http://anotherurl.com')
+    end
+  end
+
+  describe "GET show with different not_found_url" do
+    before :each do
+      Shortener.configure do |config|
+        config.not_found_url = 'http://www.google.com'
+      end
+    end
+
+    let(:code) { 'notfound' }
+    it 'redirects to what is specified in the not_found_url config' do
+      get :show, :id => code
+      response.should redirect_to('http://www.google.com')
     end
   end
 end
