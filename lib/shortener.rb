@@ -6,7 +6,7 @@ module Shortener
   autoload :ShortenUrlInterceptor, "shortener/shorten_url_interceptor"
 
   class Configuration
-    attr_accessor :charset, :unique_key_length, :after_redirect_call
+    attr_accessor :charset, :unique_key_length, :after_redirect_call, :not_found_url
 
     def initialize
       # character set to chose from:
@@ -16,6 +16,8 @@ module Shortener
 
       # default key length: 5 characters
       @unique_key_length = 5
+
+      @not_found_url = '/'
     end
 
     def after_redirect(&block)

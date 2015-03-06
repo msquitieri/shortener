@@ -16,4 +16,8 @@ Shortener.configure do |config|
   config.after_redirect do |shortened_url|
     # Custom tracking, events, etc.
   end
+
+  # Where to redirect to if there is no
+  # shortened link with the passed unique_key
+  config.not_found_url = '/'
 end
