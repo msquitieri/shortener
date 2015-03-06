@@ -49,7 +49,7 @@ Then add to your routes:
 
 == Configuration
 
-Running `rails generate shortener` will also create `config/initializers/shortener.rb` where you can specify the length of the unique key, the character set used, as well as define callbacks to be performed after the redirect is successful.
+Running <tt>rails generate shortener</tt> will also create <tt>config/initializers/shortener.rb</tt> where you can specify the length of the unique key, the character set used, as well as define callbacks to be performed after the redirect is successful.
 
 == Usage
 
