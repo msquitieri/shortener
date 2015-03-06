@@ -36,22 +36,20 @@ The majority of the Shortener consists of three parts:
 You can use the latest Rails 3 gem with the latest Shortener gem. In your Gemfile:
 
   gem 'shortener'
-  
+
 After you install Shortener run the generator:
 
   rails generate shortener
-  
+
 This generator will create a migration to create the shortened_urls table where your shortened URLs will be stored.
 
 Then add to your routes:
 
   match '/:id' => "shortener/shortened_urls#show"
 
-== Initialization
+== Configuration
 
-By default, the shortener will generate keys that are 5 characters long. You can change that by specifying the length of the key in the config/initializers/shortener.rb file.
-
-  Shortener.unique_key_length = 6
+Running `rails generate shortener` will also create `config/initializers/shortener.rb` where you can specify the length of the unique key, the character set used, as well as define callbacks to be performed after the redirect is successful.
 
 == Usage
 
