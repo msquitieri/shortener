@@ -25,15 +25,9 @@ class Shortener::ShortenedUrl < ActiveRecord::Base
       return orig_url.owner == owner ? orig_url : generate!(orig_url.url, owner)
     end
 
-    # don't want to generate the link if it has already been generated
-    # so check the datastore
     cleaned_url = clean_url(orig_url)
-    scope = owner ? owner.shortened_urls : self
 
-    url_hash = ::Shortener::ShortenedUrl.hash_url(cleaned_url)
-
-    short_link = scope.where(url_hash: url_hash).first
-    short_link = scope.create(url: cleaned_url) if short_link.nil?
+    short_link = create(url: cleaned_url)
     short_link
   end
 
